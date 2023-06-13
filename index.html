@@ -2,8 +2,11 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pin pong</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <style>
         * {
             padding: 0;
@@ -31,11 +34,44 @@
 <body>
 
     <canvas id="myCanvas"></canvas>
-    <button id="playButton">Play</button>
+    <button id="playButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-play-btn"
+            viewBox="0 0 16 16">
+            <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+            <path
+                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+        </svg>
+    </button>
 
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Prueba tu conocimiento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="validar">Validar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+        crossorigin="anonymous"></script>
     <script>
         let canvas = document.getElementById("myCanvas");
-        playButton = document.getElementById("playButton");
+        let modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
+        let playButton = document.getElementById("playButton");
+        let validar = document.getElementById("validar");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight - window.innerHeight * 0.05;
         let ctx = canvas.getContext("2d");
@@ -59,26 +95,103 @@
         let score = 0;
         let lives = 3;
         let reset = false;
+        let pause = false;
 
         let bricks = [];
-        let questions = []
-        fetch('questions.json').then(response => response.json()).then(data => {
-            // Aquí puedes trabajar con los datos del archivo JSON
-            console.log(data);
-            questions = data
-            console.log(questions)
-            // Hacer cualquier otra manipulación o procesamiento necesario
-        }).catch(error => {
-            console.log('Error al cargar el archivo JSON:', error);
-        });
-
+        let questions = [
+            {
+                "t": 0,
+                "q": "Qué es el método científico?",
+                "op": [
+                    "Ciencia que estudia la ciencia.",
+                    "Es una ciencia que nos indica unos pasos para confirmar teoiras.",
+                    "Ciencia que estudia a los ingenieros."
+                ],
+                "correct": 1
+            },
+            {
+                "t": 0,
+                "q": "Qué es el código binario?",
+                "op": [
+                    "Sistema númerico de dos dígitos (0,1).",
+                    "Calculadora que realizan calculos.",
+                    "Ordenadores de bits y bytes."
+                ],
+                "correct": 0
+            },
+            {
+                "t": 0,
+                "q": "Cuantos tipos de computadoras hay?",
+                "op": [
+                    "4.",
+                    "6.",
+                    "2."
+                ],
+                "correct": 2
+            },
+            {
+                "t": 0,
+                "q": "Qué son los sistemas de información?",
+                "op": [
+                    "Un sistema de soporte.",
+                    "Un sistema de procesamiento.",
+                    "Conjunto de elementos que interactuan entre si."
+                ],
+                "correct": 2
+            },
+            {
+                "t": 0,
+                "q": "Qué son los algoritmos?",
+                "op": [
+                    "Conjunto ordenado de operaciones sistemáticas.",
+                    "Es un pseudocódigo.",
+                    "Es una DFD."
+                ],
+                "correct": 0
+            },
+            {
+                "t": 1,
+                "q": "Los lenguajes de programación son sistemas formales de reglas y estructuras que permiten a los programadores comunicarse con las computadoras",
+                "op": [
+                    "Verdadero",
+                    "Falso"
+                ],
+                "correct": 0
+            },
+            {
+                "t": 1,
+                "q": "La inteligencia artificial imita los procesos de inteligencia humana",
+                "op": [
+                    "Verdadero",
+                    "Falso"
+                ],
+                "correct": 0
+            },
+            {
+                "t": 1,
+                "q": "La etica y la moral son lo mismo?",
+                "op": [
+                    "Verdadero",
+                    "Falso"
+                ],
+                "correct": 1
+            }
+        ]
+        let counter = 0
 
         for (let c = 0; c < brickColumnCount; c++) {
             bricks[c] = [];
             for (let r = 0; r < brickRowCount; r++) {
+                counter += 1
                 bricks[c][r] = { x: 0, y: 0, status: 1 };
+                bricks[c][r].q = questions[0]
+                if (counter == 18) {
+                    bricks[c][r].q = questions[0]
+                    counter = 0
+                }
             }
         }
+        console.log(bricks)
 
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
@@ -93,6 +206,17 @@
             score = 0
             lives = 3
         }
+
+        validar.addEventListener("click", function() {
+            pause = false
+            modal.hide()
+            draw()
+        })
+        document.getElementById("staticBackdrop").addEventListener('hidden.bs.modal', event => {
+            pause = false
+            modal.hide()
+            draw()
+        })
 
         function keyDownHandler(e) {
             if (e.code == "ArrowRight") {
@@ -122,6 +246,10 @@
                     let b = bricks[c][r];
                     if (b.status == 1) {
                         if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+                            if(b.q){
+                                pause = true
+                                modal.show();
+                            }
                             dy = -dy;
                             b.status = 0;
                             score++;
@@ -180,7 +308,7 @@
         }
 
         function draw() {
-            if (reset === true) {
+            if (reset === true || pause === true) {
                 return
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -245,7 +373,7 @@
             draw();
         });
     </script>
-
+    
 </body>
 
 </html>
