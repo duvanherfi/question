@@ -1,0 +1,79 @@
+[
+    {
+        "t": 0,
+        "q": "Qué es el método científico?",
+        "op": [
+            "Ciencia que estudia la ciencia.",
+            "Es una ciencia que nos indica unos pasos para confirmar teoiras.",
+            "Ciencia que estudia a los ingenieros."
+        ],
+        "correct": 1
+    },
+    {
+        "t": 0,
+        "q": "Qué es el código binario?",
+        "op": [
+            "Sistema númerico de dos dígitos (0,1).",
+            "Calculadora que realizan calculos.",
+            "Ordenadores de bits y bytes."
+        ],
+        "correct": 0
+    },
+    {
+        "t": 0,
+        "q": "Cuantos tipos de computadoras hay?",
+        "op": [
+            "4.",
+            "6.",
+            "2."
+        ],
+        "correct": 2
+    },
+    {
+        "t": 0,
+        "q": "Qué son los sistemas de información?",
+        "op": [
+            "Un sistema de soporte.",
+            "Un sistema de procesamiento.",
+            "Conjunto de elementos que interactuan entre si."
+        ],
+        "correct": 2
+    },
+    {
+        "t": 0,
+        "q": "Qué son los algoritmos?",
+        "op": [
+            "Conjunto ordenado de operaciones sistemáticas.",
+            "Es un pseudocódigo.",
+            "Es una DFD."
+        ],
+        "correct": 0
+    },
+    {
+        "t": 1,
+        "q": "Los lenguajes de programación son sistemas formales de reglas y estructuras que permiten a los programadores comunicarse con las computadoras",
+        "op": [
+            "Verdadero",
+            "Falso"
+        ],
+        "correct": 0
+    },
+    {
+        "t": 1,
+        "q": "La inteligencia artificial imita los procesos de inteligencia humana",
+        "op": [
+            "Verdadero",
+            "Falso"
+        ],
+        "correct": 0
+    },
+    {
+        "t": 1,
+        "q": "La etica y la moral son lo mismo?",
+        "op": [
+            "Verdadero",
+            "Falso"
+        ],
+        "correct": 1
+    },
+]
